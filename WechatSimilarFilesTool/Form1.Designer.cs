@@ -34,28 +34,31 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(236)))), ((int)(((byte)(134)))));
+            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label1.Location = new System.Drawing.Point(138, 128);
+            this.label1.Location = new System.Drawing.Point(0, 308);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 19);
+            this.label1.Size = new System.Drawing.Size(161, 33);
             this.label1.TabIndex = 0;
             this.label1.Text = "正在初始化...";
             // 
             // InitWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::WinFormsApp3.Properties.Resources._20181228081531660;
+            this.BackgroundImage = global::WechatSimilarFilesTool.Properties.Resources._20181228081531660;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(361, 154);
+            this.ClientSize = new System.Drawing.Size(634, 341);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "InitWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.InitWindow_Load);
+            this.Shown += new System.EventHandler(this.InitWindow_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
