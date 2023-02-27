@@ -1,10 +1,16 @@
+using AnimatorNS;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using WechatSimilarFilesTool;
 
-namespace WinFormsApp3
+namespace WechatSimilarFilesTool
 {
-    struct WeChatFiles
+    public struct WeChatFiles   //记录文件相关信息
     {
         public string user;
         public string month;
@@ -25,16 +31,18 @@ namespace WinFormsApp3
         }
         string weChatPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\WeChat Files\\";     //微信文件地址
         string subPath = "\\FileStorage\\File\\";  //用户下的地址
-        List<byte[]> hashes = new();    //文件哈希表
-        List<WeChatFiles> fileList = new();     //文件列表
-        List<WeChatFiles[]> similars = new();    //相似文件集合列表
+        List<byte[]> hashes = new List<byte[]>();    //文件哈希表
+        List<WeChatFiles> fileList = new List<WeChatFiles>();     //文件列表
+        public static List<WeChatFiles[]> similars = new List<WeChatFiles[]>();    //相似文件集合列表
+        public static List<string> Months = new List<string>();
+        public static List<string> Users = new List<string>();
         int threadCount = 0;    //线程数
         private void CompareFileHash(object o)   //比较方法
         {
             int i = (int)o;
+            List<WeChatFiles> files = new List<WeChatFiles>();
             for (int j = i + 1; j < fileList.Count; j++)
             {
-                List<WeChatFiles> files = new();
                 if (Methods.MD5HashCompareFile(hashes[i], hashes[j]))
                 {
                     files.Add(fileList[i]);
@@ -53,7 +61,6 @@ namespace WinFormsApp3
             string path_i = $"{weChatPath}{fileList[i].user}\\{subPath}\\{fileList[i].month}\\{fileList[i].filename}";
             hashes.Add(Methods.ComputeMD5Hash(path_i));
             threadCount--;
-
         }
         private void InitWindow_Shown(object sender, EventArgs e)
         {
@@ -67,17 +74,19 @@ namespace WinFormsApp3
                 DirectoryInfo sub = difo.GetDirectories()[i];
                 if (sub.Name.Contains("wxid_"))
                 {
+                    Users.Add(sub.Name);
                     var difo2 = new DirectoryInfo($"{weChatPath}{sub.Name}\\{subPath}");
                     for (int j = 0; j < difo2.GetDirectories().Length; j++)
                     {
                         DirectoryInfo sub2 = difo2.GetDirectories()[j];
                         if (sub2.Name.Contains("20") && sub2.Name.Contains('-') && sub2.Name.Length == 7)
                         {
+                            Months.Add(sub2.Name);
                             var difo3 = new DirectoryInfo($"{weChatPath}{sub.Name}\\{subPath}\\{sub2.Name}\\");
                             for (int k = 0; k < difo3.GetFiles().Length; k++)
                             {
                                 FileInfo sub3 = difo3.GetFiles()[k];
-                                WeChatFiles wcf = new(sub.Name, sub2.Name, sub3.Name);
+                                WeChatFiles wcf = new WeChatFiles(sub.Name, sub2.Name, sub3.Name);
                                 fileList.Add(wcf);
                             }
                         }
@@ -112,6 +121,15 @@ namespace WinFormsApp3
                 label1.Text = $"正在比对文件信息...（{i}/{fileList.Count}）";
                 label1.Refresh();
             }
+            while(true) if (threadCount < 0) break;     //判断线程是否全部结束
+            label1.Text = "正在加载结果...";
+            while(true)    //来个小动画
+            {
+                this.Opacity -= 0.1;
+                Thread.Sleep(25);
+                if(this.Opacity == 0) break;
+            }
+            new FileExplorer().Show();
         }
     }
 }

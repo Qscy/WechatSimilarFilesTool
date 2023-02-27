@@ -1,4 +1,7 @@
-namespace WinFormsApp3
+using System;
+using System.Windows.Forms;
+
+namespace WechatSimilarFilesTool
 {
     internal static class Program
     {
@@ -10,8 +13,10 @@ namespace WinFormsApp3
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new InitWindow());
+            //Application.Run(new FileExplorer());
         }
     }
 }
