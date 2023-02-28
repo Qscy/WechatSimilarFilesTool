@@ -2,15 +2,30 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WechatSimilarFilesTool
 {
+    public class MyRenderer : ToolStripProfessionalRenderer
+    { 
+        protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+        { 
+            e.Graphics.FillRectangle(new SolidBrush(Color.DimGray), e.AffectedBounds);
+        }
+        protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
+        {
+          Color customColor = Color.DimGray;
+            Rectangle affectedBounds = e.AffectedBounds;
+            //affectedBounds.Y += 2;
+            //affectedBounds.Height -= 4;
+            using (SolidBrush brush = new SolidBrush(customColor)) 
+            { 
+                e.Graphics.FillRectangle(brush, affectedBounds); 
+            } 
+        }
+    }
     internal class Methods
     {
         public static bool MD5HashCompareFile(string p_1,string p_2)
@@ -62,7 +77,8 @@ namespace WechatSimilarFilesTool
         }
         public static UINavMenu SetTreeViewStyle(UINavMenu navMenu)
         {
-            foreach(TreeNode node in navMenu.Nodes)
+            navMenu.ShowNodeToolTips = true;
+            foreach (TreeNode node in navMenu.Nodes)
             {
                 node.ImageIndex= 0;
                 node.BackColor = Color.DarkGray;
@@ -71,15 +87,30 @@ namespace WechatSimilarFilesTool
                     nodeChild.ImageIndex= 1;
                     foreach(TreeNode nodeChChild in nodeChild.Nodes)
                     {
-                        var fn = nodeChChild.Name.ToLower();
-                        if(fn.Contains(".docx")||fn.Contains(".doc"))
-                            nodeChChild.ImageIndex= 2;
-                        if(fn.Contains(".xls") || fn.Contains(".xlsx"))
-                            nodeChChild.ImageIndex= 3;
-                        if (fn.Contains(".pdf"))
-                            nodeChChild.ImageIndex = 4;
-                        if (fn.Contains(".zip") || fn.Contains(".rar")|| fn.Contains(".7z"))
-                            nodeChChild.ImageIndex = 5;
+                        if (nodeChChild.Name == "tittle")
+                        {
+                            nodeChChild.ImageIndex = 7;
+                            nodeChChild.NodeFont = new Font("黑体", 10, FontStyle.Bold);
+                            nodeChChild.ForeColor = Color.DarkRed;
+                        }
+                        foreach(TreeNode nodeChChChild in nodeChChild.Nodes)
+                        {
+                            var fn = nodeChChChild.Name.ToLower();
+                            if (fn.Contains(".docx") || fn.Contains(".doc"))
+                                nodeChChChild.ImageIndex = 2;
+                            else if (fn.Contains(".xls") || fn.Contains(".xlsx"))
+                                nodeChChChild.ImageIndex = 3;
+                            else if (fn.Contains(".ppt") || fn.Contains(".pptx"))
+                                nodeChChChild.ImageIndex = 9;
+                            else if (fn.Contains(".pdf"))
+                                nodeChChChild.ImageIndex = 4;
+                            else if (fn.Contains(".zip") || fn.Contains(".rar") || fn.Contains(".7z"))
+                                nodeChChChild.ImageIndex = 5;
+                            else if (fn.Contains(".jpg") || fn.Contains(".jpeg") || fn.Contains(".png") || fn.Contains(".bmp"))
+                                nodeChChChild.ImageIndex = 6;
+                            else
+                                nodeChChChild.ImageIndex = 8;
+                        }
                     }
                 }
             }

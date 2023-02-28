@@ -15,8 +15,8 @@ namespace WechatSimilarFilesTool
             // see https://aka.ms/applicationconfiguration.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InitWindow());
-            //Application.Run(new FileExplorer());
+            //Application.Run(new InitWindow());
+            Application.Run(new FileExplorer());
         }
     }
 }

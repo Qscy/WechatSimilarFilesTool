@@ -1,4 +1,5 @@
 using AnimatorNS;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace WechatSimilarFilesTool
         }
         string weChatPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\WeChat Files\\";     //微信文件地址
         string subPath = "\\FileStorage\\File\\";  //用户下的地址
-        List<byte[]> hashes = new List<byte[]>();    //文件哈希表
+        Dictionary<int, byte[]> hashes = new Dictionary<int,byte[]>();    //文件哈希表
         List<WeChatFiles> fileList = new List<WeChatFiles>();     //文件列表
         public static List<WeChatFiles[]> similars = new List<WeChatFiles[]>();    //相似文件集合列表
         public static List<string> Months = new List<string>();
@@ -59,16 +60,16 @@ namespace WechatSimilarFilesTool
         {
             int i = (int)o;
             string path_i = $"{weChatPath}{fileList[i].user}\\{subPath}\\{fileList[i].month}\\{fileList[i].filename}";
-            hashes.Add(Methods.ComputeMD5Hash(path_i));
+            hashes.Add(i,Methods.ComputeMD5Hash(path_i));
             threadCount--;
         }
         private void InitWindow_Shown(object sender, EventArgs e)
         {
             label1.Visible = true;      
-            var difo = new DirectoryInfo(weChatPath);   
-            Thread.Sleep(1000);
             label1.Text = "正在获取微信文件路径...";
             label1.Refresh();
+            uiSymbolButton1.Refresh();
+            var difo = new DirectoryInfo(weChatPath);
             for (int i = 0; i < difo.GetDirectories().Length; i++)  //获取微信所有文件
             {
                 DirectoryInfo sub = difo.GetDirectories()[i];
@@ -105,7 +106,20 @@ namespace WechatSimilarFilesTool
                 th.Start(i);
                 label1.Text = $"正在统计文件信息...（{i}/{fileList.Count}）";
                 label1.Refresh();
-                if(i == fileList.Count-1) while (true) { if (hashes.Count == fileList.Count) break; }   //等待线程执行完毕
+                if(i == fileList.Count-1)   //等待线程执行完毕
+                {
+                    var time1 =DateTime.Now;
+                    while (true)
+                    { 
+                        if (hashes.Count == fileList.Count) break;
+                        var time2 = DateTime.Now;
+                        if (time2.Second -time1.Second > 30)
+                        {
+                            label1.Text = "线程未响应...请重新启动...";
+                            return;
+                        }
+                    }
+                }
             }
             threadCount = 0;
             for (int i = 0; i < fileList.Count-1; i++)    //对比文件哈希值
@@ -123,13 +137,12 @@ namespace WechatSimilarFilesTool
             }
             while(true) if (threadCount < 0) break;     //判断线程是否全部结束
             label1.Text = "正在加载结果...";
-            while(true)    //来个小动画
-            {
-                this.Opacity -= 0.1;
-                Thread.Sleep(25);
-                if(this.Opacity == 0) break;
-            }
-            new FileExplorer().Show();
+            this.DialogResult= DialogResult.OK;
+        }
+
+        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

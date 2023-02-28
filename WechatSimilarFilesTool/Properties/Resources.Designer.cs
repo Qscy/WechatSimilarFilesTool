@@ -73,9 +73,39 @@ namespace WechatSimilarFilesTool.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap 关闭 {
+        internal static System.Drawing.Bitmap 删除 {
             get {
-                object obj = ResourceManager.GetObject("关闭", resourceCulture);
+                object obj = ResourceManager.GetObject("删除", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 回收站 {
+            get {
+                object obj = ResourceManager.GetObject("回收站", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 打开 {
+            get {
+                object obj = ResourceManager.GetObject("打开", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 查找 {
+            get {
+                object obj = ResourceManager.GetObject("查找", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
