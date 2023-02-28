@@ -108,7 +108,7 @@ namespace WechatSimilarFilesTool
             this.contextMenuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 186);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 148);
             // 
             // uiContextMenuStrip1
             // 
@@ -118,7 +118,8 @@ namespace WechatSimilarFilesTool
             this.uiContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.关于ToolStripMenuItem});
             this.uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            this.uiContextMenuStrip1.Size = new System.Drawing.Size(130, 38);
+            this.uiContextMenuStrip1.ShowImageMargin = false;
+            this.uiContextMenuStrip1.Size = new System.Drawing.Size(246, 76);
             this.uiContextMenuStrip1.Style = Sunny.UI.UIStyle.Custom;
             this.uiContextMenuStrip1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
