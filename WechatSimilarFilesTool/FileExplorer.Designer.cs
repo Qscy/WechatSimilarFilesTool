@@ -35,12 +35,12 @@ namespace WechatSimilarFilesTool
             this.uiNavMenu1 = new Sunny.UI.UINavMenu();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.uiContextMenuStrip1 = new Sunny.UI.UIContextMenuStrip();
-            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmRecycle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmFindPath = new System.Windows.Forms.ToolStripMenuItem();
+            this.uiContextMenuStrip1 = new Sunny.UI.UIContextMenuStrip();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.uiContextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -77,7 +77,6 @@ namespace WechatSimilarFilesTool
             this.uiNavMenu1.TabIndex = 0;
             this.uiNavMenu1.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiNavMenu1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiNavMenu1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.uiNavMenu1_DrawNode);
             this.uiNavMenu1.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.uiNavMenu1_NodeMouseHover);
             this.uiNavMenu1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.uiNavMenu1_NodeMouseClick);
             // 
@@ -95,6 +94,8 @@ namespace WechatSimilarFilesTool
             this.imageList1.Images.SetKeyName(7, "下三角.png");
             this.imageList1.Images.SetKeyName(8, "其他格式文件.png");
             this.imageList1.Images.SetKeyName(9, "ppt.png");
+            this.imageList1.Images.SetKeyName(10, "文件.png");
+            this.imageList1.Images.SetKeyName(11, "视频.png");
             // 
             // contextMenuStrip1
             // 
@@ -110,35 +111,12 @@ namespace WechatSimilarFilesTool
             this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.contextMenuStrip1.Size = new System.Drawing.Size(202, 148);
             // 
-            // uiContextMenuStrip1
-            // 
-            this.uiContextMenuStrip1.BackColor = System.Drawing.Color.DimGray;
-            this.uiContextMenuStrip1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
-            this.uiContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.关于ToolStripMenuItem});
-            this.uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            this.uiContextMenuStrip1.ShowImageMargin = false;
-            this.uiContextMenuStrip1.Size = new System.Drawing.Size(246, 76);
-            this.uiContextMenuStrip1.Style = Sunny.UI.UIStyle.Custom;
-            this.uiContextMenuStrip1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            // 
-            // 关于ToolStripMenuItem
-            // 
-            this.关于ToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.关于ToolStripMenuItem.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.关于ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(129, 34);
-            this.关于ToolStripMenuItem.Text = "关于";
-            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
-            // 
             // tsmOpen
             // 
             this.tsmOpen.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tsmOpen.Image = global::WechatSimilarFilesTool.Properties.Resources.打开;
             this.tsmOpen.Name = "tsmOpen";
-            this.tsmOpen.Size = new System.Drawing.Size(282, 36);
+            this.tsmOpen.Size = new System.Drawing.Size(201, 36);
             this.tsmOpen.Text = "打开它";
             this.tsmOpen.Click += new System.EventHandler(this.tsmOpen_Click);
             // 
@@ -149,7 +127,7 @@ namespace WechatSimilarFilesTool
             this.tsmRecycle.Image = ((System.Drawing.Image)(resources.GetObject("tsmRecycle.Image")));
             this.tsmRecycle.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
             this.tsmRecycle.Name = "tsmRecycle";
-            this.tsmRecycle.Size = new System.Drawing.Size(282, 36);
+            this.tsmRecycle.Size = new System.Drawing.Size(201, 36);
             this.tsmRecycle.Text = "扔到回收站";
             this.tsmRecycle.Click += new System.EventHandler(this.tsmRecycle_Click);
             // 
@@ -160,7 +138,7 @@ namespace WechatSimilarFilesTool
             this.tsmDelete.Image = global::WechatSimilarFilesTool.Properties.Resources.删除;
             this.tsmDelete.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
             this.tsmDelete.Name = "tsmDelete";
-            this.tsmDelete.Size = new System.Drawing.Size(282, 36);
+            this.tsmDelete.Size = new System.Drawing.Size(201, 36);
             this.tsmDelete.Text = "扔到虚空";
             this.tsmDelete.ToolTipText = "（永久删除）";
             this.tsmDelete.Click += new System.EventHandler(this.tsmDelete_Click);
@@ -173,9 +151,32 @@ namespace WechatSimilarFilesTool
             this.tsmFindPath.Image = ((System.Drawing.Image)(resources.GetObject("tsmFindPath.Image")));
             this.tsmFindPath.ImageTransparentColor = System.Drawing.Color.White;
             this.tsmFindPath.Name = "tsmFindPath";
-            this.tsmFindPath.Size = new System.Drawing.Size(282, 36);
+            this.tsmFindPath.Size = new System.Drawing.Size(201, 36);
             this.tsmFindPath.Text = "找到它在哪";
             this.tsmFindPath.Click += new System.EventHandler(this.tsmFindPath_Click);
+            // 
+            // uiContextMenuStrip1
+            // 
+            this.uiContextMenuStrip1.BackColor = System.Drawing.Color.DimGray;
+            this.uiContextMenuStrip1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
+            this.uiContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.关于ToolStripMenuItem});
+            this.uiContextMenuStrip1.Name = "uiContextMenuStrip1";
+            this.uiContextMenuStrip1.ShowImageMargin = false;
+            this.uiContextMenuStrip1.Size = new System.Drawing.Size(105, 38);
+            this.uiContextMenuStrip1.Style = Sunny.UI.UIStyle.Custom;
+            this.uiContextMenuStrip1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.关于ToolStripMenuItem.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.关于ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(104, 34);
+            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // FileExplorer
             // 

@@ -42,19 +42,19 @@ namespace WechatSimilarFilesTool
                 Thread.Sleep(25);
                 if (this.Opacity == 1) break;
             }
-            uiNavMenu1 = Methods.SetTreeViewStyle(uiNavMenu1);
+            uiNavMenu1 = Methods.SetTreeViewStyle(uiNavMenu1);  //载入重写
             uiNavMenu1.Nodes[0].Expand();
-            uiNavMenu1.Nodes[0].Nodes[0].ExpandAll();
+            uiNavMenu1.Nodes[0].Nodes[0].ExpandAll();   //默认展开
             uiNavMenu1.Refresh();
         }
         private void TreeViewLoad(List<WeChatFiles[]> similars, List<string> Users, List<string> Months)    //在TreeView中加载读取到的数据
         {
-            var dic = Methods.MonthsOrder(Months);
+            var dic = Methods.MonthsOrder(Months);  //添加用户节点
             foreach (string user in Users)
             {
                 uiNavMenu1.Nodes.Add(user, user);
             }
-            for (int i = 0; i < Users.Count; i++)
+            for (int i = 0; i < Users.Count; i++)   //获取用户月份
             {
                 var userMonth = new List<string>();
                 foreach (WeChatFiles[] wcfList in similars)
@@ -67,7 +67,7 @@ namespace WechatSimilarFilesTool
                         }
                     }
                 }
-                var sortMonths = new SortedDictionary<int, string>();
+                var sortMonths = new SortedDictionary<int, string>();   //月份排序
                 foreach (string month in userMonth)
                 {
                     foreach (KeyValuePair<int, string> kvp in dic)
@@ -78,7 +78,7 @@ namespace WechatSimilarFilesTool
                 }
                 sortMonths.Reverse();
                 var node = uiNavMenu1.Nodes[uiNavMenu1.Nodes.IndexOfKey(Users[i])];
-                foreach (KeyValuePair<int, string> kvp in sortMonths)
+                foreach (KeyValuePair<int, string> kvp in sortMonths)   //添加月份节点
                 {
                     node.Nodes.Add(kvp.Value, kvp.Value);
                     var nodeMonth = node.Nodes[node.Nodes.IndexOfKey(kvp.Value)];
@@ -86,11 +86,11 @@ namespace WechatSimilarFilesTool
                     {
                         foreach (WeChatFiles wcf in wcfarry)
                         {
-                            if (wcf.user == Users[i] && wcf.month == kvp.Value)
+                            if (wcf.user == Users[i] && wcf.month == kvp.Value)     //添加Tittle
                             {
                                 var tittle = $"==============={wcfarry.Length}个文件重复===============";
                                 var nodeTittle = nodeMonth.Nodes.Add("tittle", tittle);
-                                foreach (WeChatFiles wcf2 in wcfarry)
+                                foreach (WeChatFiles wcf2 in wcfarry)   //添加文件节点及相关信息
                                 {
                                     var filenode = nodeTittle.Nodes.Add(wcf2.filename, wcf2.filename);
                                     var fpath = weChatPath + wcf2.user + subPath + wcf2.month + "\\" + wcf2.filename;
@@ -104,29 +104,14 @@ namespace WechatSimilarFilesTool
                 }
             }
         }
-        private void FileExplorer_FormClosed(object sender, FormClosedEventArgs e)
+        private void FileExplorer_FormClosed(object sender, FormClosedEventArgs e)  //关闭按钮
         {
             Environment.Exit(0);
         }
-
-        private void uiNavMenu1_DrawNode(object sender, DrawTreeNodeEventArgs e)
-        {
-            //var bounds = e.Node.Bounds;
-            //if (e.Node.Name == "tittle")
-            //{
-            //    e.Graphics.DrawRectangle(Color.DarkRed, bounds, true, 2);
-            //}
-            //else if(e.Node.Level == 2)
-            //{
-            //    e.Graphics.DrawString(e.Node.ToolTipText, new Font("微软雅黑", 8, FontStyle.Italic), Brushes.DarkRed, e.Bounds.Width/4, e.Bounds.Height * 3 / 2);
-            //}
-        }
-
-        private void uiNavMenu1_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+        private void uiNavMenu1_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)    //显示节点提示
         {
             uiNavMenu1.ShowNodeToolTips = true;
         }
-
         private void tsmRecycle_Click(object sender, EventArgs e)   //移动到回收站
         {
             var node = uiNavMenu1.SelectedNode;
@@ -154,14 +139,14 @@ namespace WechatSimilarFilesTool
             var fpath = weChatPath + node.Parent.Parent.Parent.Name + subPath + node.Parent.Parent.Name + "\\" + node.Name;
             System.Diagnostics.Process.Start("Explorer", "/select," + fpath);
         }
-        private void uiNavMenu1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)  //显示右键菜单
+        private void uiNavMenu1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)  //TreeView的Node点击事件
         {
             var node = e.Node;
-            if (node != null && node.Level == 3 && node.Name != "tittle" && e.Button == MouseButtons.Right)
+            if (node != null && node.Level == 3 && node.Name != "tittle" && e.Button == MouseButtons.Right)     //显示右键菜单
             {
                 contextMenuStrip1.Show(MousePosition);
             }
-            else if (node != null && node.Level == 1 && e.Button == MouseButtons.Left)
+            else if (node != null && node.Level == 1 && e.Button == MouseButtons.Left)  //左键节点展开
             {
                 foreach(TreeNode nd in node.Nodes)
                 {
@@ -170,17 +155,17 @@ namespace WechatSimilarFilesTool
             }
         }
 
-        private void tsmDelete_MouseHover(object sender, EventArgs e)
+        private void tsmDelete_MouseHover(object sender, EventArgs e)   //删除选项
         {
             contextMenuStrip1.ShowItemToolTips = true;
         }
 
-        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)  //关于窗口
         {
             new about().ShowDialog();
         }
 
-        private void tsmOpen_Click(object sender, EventArgs e)
+        private void tsmOpen_Click(object sender, EventArgs e)  //打开选项
         {
             var node = uiNavMenu1.SelectedNode;
             var fpath = weChatPath + node.Parent.Parent.Parent.Name + subPath + node.Parent.Parent.Name + "\\" + node.Name;

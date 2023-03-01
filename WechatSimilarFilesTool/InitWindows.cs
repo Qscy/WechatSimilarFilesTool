@@ -56,7 +56,7 @@ namespace WechatSimilarFilesTool
                 threadCount--;
             }
         }
-        private void GetMD5Hash(object o)
+        private void GetMD5Hash(object o)   //获取Hash
         {
             int i = (int)o;
             string path_i = $"{weChatPath}{fileList[i].user}\\{subPath}\\{fileList[i].month}\\{fileList[i].filename}";
@@ -69,26 +69,26 @@ namespace WechatSimilarFilesTool
             label1.Text = "正在获取微信文件路径...";
             label1.Refresh();
             uiSymbolButton1.Refresh();
-            var difo = new DirectoryInfo(weChatPath);
+            var difo = new DirectoryInfo(weChatPath);   //根路径文件夹信息
             for (int i = 0; i < difo.GetDirectories().Length; i++)  //获取微信所有文件
             {
                 DirectoryInfo sub = difo.GetDirectories()[i];
                 if (sub.Name.Contains("wxid_"))
                 {
-                    Users.Add(sub.Name);
+                    Users.Add(sub.Name);    //添加用户
                     var difo2 = new DirectoryInfo($"{weChatPath}{sub.Name}\\{subPath}");
                     for (int j = 0; j < difo2.GetDirectories().Length; j++)
                     {
                         DirectoryInfo sub2 = difo2.GetDirectories()[j];
                         if (sub2.Name.Contains("20") && sub2.Name.Contains('-') && sub2.Name.Length == 7)
                         {
-                            Months.Add(sub2.Name);
+                            Months.Add(sub2.Name);  //添加月份
                             var difo3 = new DirectoryInfo($"{weChatPath}{sub.Name}\\{subPath}\\{sub2.Name}\\");
                             for (int k = 0; k < difo3.GetFiles().Length; k++)
                             {
                                 FileInfo sub3 = difo3.GetFiles()[k];
                                 WeChatFiles wcf = new WeChatFiles(sub.Name, sub2.Name, sub3.Name);
-                                fileList.Add(wcf);
+                                fileList.Add(wcf);  //添加微信文件
                             }
                         }
                     }
@@ -109,11 +109,11 @@ namespace WechatSimilarFilesTool
                 if(i == fileList.Count-1)   //等待线程执行完毕
                 {
                     var time1 =DateTime.Now;
-                    while (true)
+                    while (true)    //判断线程是否完成
                     { 
                         if (hashes.Count == fileList.Count) break;
                         var time2 = DateTime.Now;
-                        if (time2.Second -time1.Second > 30)
+                        if (time2.Second -time1.Second > 30)    //错误处理：有时候会堵住
                         {
                             label1.Text = "线程未响应...请重新启动...";
                             return;
@@ -124,7 +124,7 @@ namespace WechatSimilarFilesTool
             threadCount = 0;
             for (int i = 0; i < fileList.Count-1; i++)    //对比文件哈希值
             {
-                while(true)
+                while(true)     //限制线程数
                 {
                     if (threadCount < 5) break;
                 }
@@ -140,7 +140,7 @@ namespace WechatSimilarFilesTool
             this.DialogResult= DialogResult.OK;
         }
 
-        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        private void uiSymbolButton1_Click(object sender, EventArgs e)  //关闭按钮
         {
             Environment.Exit(0);
         }

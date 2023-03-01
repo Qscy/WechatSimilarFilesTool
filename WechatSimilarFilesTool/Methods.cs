@@ -8,13 +8,13 @@ using System.Windows.Forms;
 
 namespace WechatSimilarFilesTool
 {
-    public class MyRenderer : ToolStripProfessionalRenderer
+    public class MyRenderer : ToolStripProfessionalRenderer     //重写右键菜单的背景颜色
     { 
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         { 
             e.Graphics.FillRectangle(new SolidBrush(Color.DimGray), e.AffectedBounds);
         }
-        protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
+        protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)     //image背景
         {
           Color customColor = Color.DimGray;
             Rectangle affectedBounds = e.AffectedBounds;
@@ -28,7 +28,7 @@ namespace WechatSimilarFilesTool
     }
     internal class Methods
     {
-        public static bool MD5HashCompareFile(string p_1,string p_2)
+        public static bool MD5HashCompareFile(string p_1,string p_2)    //哈希比较
         {
             var md5 = System.Security.Cryptography.MD5.Create();
             //计算第一个文件的哈希值
@@ -45,7 +45,7 @@ namespace WechatSimilarFilesTool
             else
                 return false;
         }
-        public static bool MD5HashCompareFile(byte[] h_1, string p_2)
+        public static bool MD5HashCompareFile(byte[] h_1, string p_2)   //Hash比较
         {
             var md5 = System.Security.Cryptography.MD5.Create();
             //计算第二个文件的哈希值
@@ -58,7 +58,7 @@ namespace WechatSimilarFilesTool
             else
                 return false;
         }
-        public static bool MD5HashCompareFile(byte[] h_1, byte[] h_2)
+        public static bool MD5HashCompareFile(byte[] h_1, byte[] h_2)   //Hash比较
         {
             var md5 = System.Security.Cryptography.MD5.Create();
             //比较两个哈希值
@@ -67,7 +67,7 @@ namespace WechatSimilarFilesTool
             else
                 return false;
         }
-        public static byte[] ComputeMD5Hash(string p)
+        public static byte[] ComputeMD5Hash(string p)   //Hash计算
         {
             var md5 = System.Security.Cryptography.MD5.Create();
             var stream_1 = File.OpenRead(p);
@@ -75,7 +75,7 @@ namespace WechatSimilarFilesTool
             stream_1.Close();
             return hashByte_1;
         }
-        public static UINavMenu SetTreeViewStyle(UINavMenu navMenu)
+        public static UINavMenu SetTreeViewStyle(UINavMenu navMenu)     //TreeView的image分类
         {
             navMenu.ShowNodeToolTips = true;
             foreach (TreeNode node in navMenu.Nodes)
@@ -106,8 +106,12 @@ namespace WechatSimilarFilesTool
                                 nodeChChChild.ImageIndex = 4;
                             else if (fn.Contains(".zip") || fn.Contains(".rar") || fn.Contains(".7z"))
                                 nodeChChChild.ImageIndex = 5;
-                            else if (fn.Contains(".jpg") || fn.Contains(".jpeg") || fn.Contains(".png") || fn.Contains(".bmp"))
+                            else if (fn.Contains(".jpg") || fn.Contains(".jpeg") || fn.Contains(".png") || fn.Contains(".bmp") || fn.Contains(".gif"))
                                 nodeChChChild.ImageIndex = 6;
+                            else if (fn.Contains(".txt") || fn.Contains(".xml"))
+                                nodeChChChild.ImageIndex = 10;
+                            else if (fn.Contains(".m4v") || fn.Contains(".mp4") || fn.Contains(".mkv") || fn.Contains(".avi") || fn.Contains(".flv"))
+                                nodeChChChild.ImageIndex = 11;
                             else
                                 nodeChChChild.ImageIndex = 8;
                         }
@@ -116,7 +120,7 @@ namespace WechatSimilarFilesTool
             }
             return navMenu;
         }
-        public static Dictionary<int, string> MonthsOrder(List<string> list)
+        public static Dictionary<int, string> MonthsOrder(List<string> list)    //月份排序
         {
             var list2 = new List<string>(list);
             var list3 = new List<int>();
