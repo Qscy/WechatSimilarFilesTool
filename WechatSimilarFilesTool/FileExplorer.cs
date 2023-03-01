@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Sunny.UI;
 using Microsoft.VisualBasic.FileIO;
+
 namespace WechatSimilarFilesTool
 {
     public partial class FileExplorer : UIForm
@@ -20,12 +21,12 @@ namespace WechatSimilarFilesTool
         {
             this.contextMenuStrip1.Renderer = new MyRenderer();
             var iw = new InitWindow();
-            if(iw.ShowDialog()==DialogResult.OK)
+            if (iw.ShowDialog() == DialogResult.OK)
             {
                 List<WeChatFiles[]> similars = new List<WeChatFiles[]>(InitWindow.similars);    //传入的相似文件
                 List<string> Users = new List<string>(InitWindow.Users);    //包含的用户
                 List<string> Months = new List<string>(InitWindow.Months);  //包含的月份
-                TreeViewLoad(similars,Users,Months);
+                TreeViewLoad(similars, Users, Months);
                 while (true)    //来个小动画
                 {
                     this.Opacity -= 0.1;
@@ -88,15 +89,16 @@ namespace WechatSimilarFilesTool
                         {
                             if (wcf.user == Users[i] && wcf.month == kvp.Value)     //添加Tittle
                             {
-                                var tittle = $"==============={wcfarry.Length}个文件重复===============";
+                                var tittle = $"==============={wcfarry.Length}个文件重复";
                                 var nodeTittle = nodeMonth.Nodes.Add("tittle", tittle);
+                                long talsize = 0;
                                 foreach (WeChatFiles wcf2 in wcfarry)   //添加文件节点及相关信息
                                 {
                                     var filenode = nodeTittle.Nodes.Add(wcf2.filename, wcf2.filename);
-                                    var fpath = weChatPath + wcf2.user + subPath + wcf2.month + "\\" + wcf2.filename;
-                                    var fi = new FileInfo(fpath);
-                                    filenode.ToolTipText = $"修改日期：{fi.LastWriteTime}\t所在文件夹：{fi.Directory.Name}";
+                                    talsize += wcf2.size;
+                                    filenode.ToolTipText = $"文件大小:{Methods.AutoFitFormat(wcf2.size)}\t修改日期：{wcf2.lasteditime}\t文件夹：{wcf2.month}";
                                 }
+                                nodeTittle.Text += $"，共计{Methods.AutoFitFormat(talsize)}===============";
                                 break;
                             }
                         }
@@ -116,7 +118,7 @@ namespace WechatSimilarFilesTool
         {
             var node = uiNavMenu1.SelectedNode;
             var fpath = weChatPath + node.Parent.Parent.Parent.Name + subPath + node.Parent.Parent.Name + "\\" + node.Name;
-            FileSystem.DeleteFile(fpath,Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);
+            FileSystem.DeleteFile(fpath, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             var parent = node.Parent;
             node.Remove();
             if (parent.GetNodeCount(false) < 2) parent.Remove();
@@ -148,7 +150,7 @@ namespace WechatSimilarFilesTool
             }
             else if (node != null && node.Level == 1 && e.Button == MouseButtons.Left)  //左键节点展开
             {
-                foreach(TreeNode nd in node.Nodes)
+                foreach (TreeNode nd in node.Nodes)
                 {
                     nd.ExpandAll();
                 }

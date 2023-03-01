@@ -1,13 +1,9 @@
-using AnimatorNS;
-using Sunny.UI;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using WechatSimilarFilesTool;
 
 namespace WechatSimilarFilesTool
 {
@@ -16,12 +12,15 @@ namespace WechatSimilarFilesTool
         public string user;
         public string month;
         public string filename;
-
-        public WeChatFiles(string name1, string name2, string name3)
+        public long size;
+        public DateTime lasteditime;
+        public WeChatFiles(string name1, string name2, string name3, long name4, DateTime name5)
         {
             user = name1;
             month = name2;
             filename = name3;
+            size = name4;
+            lasteditime = name5;
         }
     }
     public partial class InitWindow : Form
@@ -87,7 +86,7 @@ namespace WechatSimilarFilesTool
                             for (int k = 0; k < difo3.GetFiles().Length; k++)
                             {
                                 FileInfo sub3 = difo3.GetFiles()[k];
-                                WeChatFiles wcf = new WeChatFiles(sub.Name, sub2.Name, sub3.Name);
+                                WeChatFiles wcf = new WeChatFiles(sub.Name, sub2.Name, sub3.Name, sub3.Length, sub3.LastWriteTime);
                                 fileList.Add(wcf);  //添加微信文件
                             }
                         }
@@ -113,7 +112,7 @@ namespace WechatSimilarFilesTool
                     { 
                         if (hashes.Count == fileList.Count) break;
                         var time2 = DateTime.Now;
-                        if (time2.Second -time1.Second > 30)    //错误处理：有时候会堵住
+                        if (time2.Second -time1.Second > 10)    //错误处理：有时候会堵住
                         {
                             label1.Text = "线程未响应...请重新启动...";
                             return;

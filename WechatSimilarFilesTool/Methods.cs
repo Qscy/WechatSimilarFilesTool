@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace WechatSimilarFilesTool
 {
@@ -87,12 +88,7 @@ namespace WechatSimilarFilesTool
                     nodeChild.ImageIndex= 1;
                     foreach(TreeNode nodeChChild in nodeChild.Nodes)
                     {
-                        if (nodeChChild.Name == "tittle")
-                        {
-                            nodeChChild.ImageIndex = 7;
-                            nodeChChild.NodeFont = new Font("黑体", 10, FontStyle.Bold);
-                            nodeChChild.ForeColor = Color.DarkRed;
-                        }
+                        nodeChChild.ImageIndex = 7;
                         foreach(TreeNode nodeChChChild in nodeChChild.Nodes)
                         {
                             var fn = nodeChChChild.Name.ToLower();
@@ -136,6 +132,43 @@ namespace WechatSimilarFilesTool
             for(int i = 0; i < arry.Length; i++)
                 dic.Add(i, arry[i].ToString());
             return dic;
+        }
+        public enum SizeFormat  //单位枚举
+        {
+            Byte = 0x0,
+            KB = 0x1,
+            MB = 0x2,
+            GB = 0x3,
+        }
+        public static double FormatSize(long b, SizeFormat u)   //单位转换
+        {
+            var byteSize = (double)b;
+            switch(u)
+            {
+                case 0x0:
+                    return byteSize;
+                case (SizeFormat)0x1:
+                    return byteSize / 1024.0;
+                case (SizeFormat)0x2:
+                    return byteSize / 1024.0 / 1024.0;
+                case (SizeFormat)0x3:
+                    return byteSize / 1024.0 / 1024.0 / 1024.0;
+            }
+            return 0;
+        }
+        public static string AutoFitFormat(long b)  //自适应单位
+        {
+            var size = (double)b;
+            var format =new List<string>(){ "B", "KB", "MB", "GB" };
+            for(int i = 1; i < 5; i++)
+            {
+                if (size < Math.Pow(1024, (double)i) && size != 0)
+                {
+                    var s = (size/ Math.Pow(1024, (double)i-1)).ToString("0.0") + format[i-1];
+                    return s;
+                }
+            }
+            return b.ToString() + "B";
         }
     }
 }
