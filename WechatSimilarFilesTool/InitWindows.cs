@@ -112,7 +112,7 @@ namespace WechatSimilarFilesTool
                     { 
                         if (hashes.Count == fileList.Count) break;
                         var time2 = DateTime.Now;
-                        if (time2.Second -time1.Second > 10)    //错误处理：有时候会堵住
+                        if (time2.Second -time1.Second > 5)    //错误处理：有时候会堵住
                         {
                             label1.Text = "线程未响应...请重新启动...";
                             return;
@@ -136,6 +136,12 @@ namespace WechatSimilarFilesTool
             }
             while(true) if (threadCount < 0) break;     //判断线程是否全部结束
             label1.Text = "正在加载结果...";
+            while (true)    //来个小动画
+            {
+                this.Opacity -= 0.1;
+                Thread.Sleep(25);
+                if (this.Opacity == 0) break;
+            }
             this.DialogResult= DialogResult.OK;
         }
 

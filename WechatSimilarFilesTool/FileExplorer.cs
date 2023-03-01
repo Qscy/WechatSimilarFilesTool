@@ -27,12 +27,6 @@ namespace WechatSimilarFilesTool
                 List<string> Users = new List<string>(InitWindow.Users);    //包含的用户
                 List<string> Months = new List<string>(InitWindow.Months);  //包含的月份
                 TreeViewLoad(similars, Users, Months);
-                while (true)    //来个小动画
-                {
-                    this.Opacity -= 0.1;
-                    Thread.Sleep(25);
-                    if (this.Opacity == 0) break;
-                }
             }
         }
         private void FileExplorer_Shown(object sender, EventArgs e)
@@ -99,10 +93,19 @@ namespace WechatSimilarFilesTool
                                     filenode.ToolTipText = $"文件大小:{Methods.AutoFitFormat(wcf2.size)}\t修改日期：{wcf2.lasteditime}\t文件夹：{wcf2.month}";
                                 }
                                 nodeTittle.Text += $"，共计{Methods.AutoFitFormat(talsize)}===============";
+                                nodeTittle.ToolTipText = talsize.ToString();
                                 break;
                             }
                         }
                     }
+                }
+            }
+            foreach (TreeNode userNode in uiNavMenu1.Nodes)
+            {
+                for (int i = 0; i < userNode.Nodes.Count; i++)
+                {
+                    userNode.Nodes[i] = Methods.ChildNodeOrder(userNode.Nodes[i]);
+                    foreach (TreeNode tittleNode in userNode.Nodes[i].Nodes) tittleNode.ToolTipText = "";
                 }
             }
         }

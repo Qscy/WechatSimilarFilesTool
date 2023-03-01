@@ -27,7 +27,7 @@ namespace WechatSimilarFilesTool
             } 
         }
     }
-    internal class Methods
+    internal sealed class Methods
     {
         public static bool MD5HashCompareFile(string p_1,string p_2)    //哈希比较
         {
@@ -169,6 +169,27 @@ namespace WechatSimilarFilesTool
                 }
             }
             return b.ToString() + "B";
+        }
+        public static TreeNode ChildNodeOrder(TreeNode node)     //根据文件大小进行排序
+        {
+            if (node == null) return null;
+            for(int i=0;i<node.Nodes.Count-1;i++)
+            {
+                var temp = (TreeNode)node.Nodes[i].Clone();
+                var index = i;
+                for (int j=i;j<node.Nodes.Count - 1; j++)
+                {
+                    if (Convert.ToInt32(temp.ToolTipText) > Convert.ToInt32(node.Nodes[j + 1].ToolTipText)) continue;
+                    else
+                    {
+                        temp =(TreeNode)node.Nodes[j + 1].Clone();
+                        index = j + 1;
+                    }
+                }
+                node.Nodes[index] = (TreeNode)node.Nodes[i].Clone(); 
+                node.Nodes[i] = (TreeNode)temp.Clone();
+            }
+            return node;
         }
     }
 }
