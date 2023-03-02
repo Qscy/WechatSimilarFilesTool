@@ -39,7 +39,7 @@ namespace WechatSimilarFilesTool
             }
             uiNavMenu1 = Methods.SetTreeViewStyle(uiNavMenu1);  //载入重写
             uiNavMenu1.Nodes[0].Expand();
-            uiNavMenu1.Nodes[0].Nodes[0].ExpandAll();   //默认展开
+            uiNavMenu1.Nodes[0].Nodes[0]?.ExpandAll();   //默认展开
             uiNavMenu1.Refresh();
         }
         private void TreeViewLoad(List<WeChatFiles[]> similars, List<string> Users, List<string> Months)    //在TreeView中加载读取到的数据
