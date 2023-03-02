@@ -37,9 +37,15 @@ namespace WechatSimilarFilesTool
                 Thread.Sleep(25);
                 if (this.Opacity == 1) break;
             }
-            uiNavMenu1 = Methods.SetTreeViewStyle(uiNavMenu1);  //载入重写
-            uiNavMenu1.Nodes[0].Expand();
-            uiNavMenu1.Nodes[0].Nodes[0]?.ExpandAll();   //默认展开
+            uiNavMenu1 = Methods.SetTreeViewStyle(uiNavMenu1);  //载入自定义样式
+            foreach (TreeNode node in uiNavMenu1.Nodes)
+            {
+                if (node.Nodes.Count > 0)
+                {
+                    node.Expand();
+                    node.Nodes[0].ExpandAll();   //默认展开
+                }
+            }
             uiNavMenu1.Refresh();
         }
         private void TreeViewLoad(List<WeChatFiles[]> similars, List<string> Users, List<string> Months)    //在TreeView中加载读取到的数据
@@ -105,6 +111,7 @@ namespace WechatSimilarFilesTool
                 for (int i = 0; i < userNode.Nodes.Count; i++)
                 {
                     userNode.Nodes[i] = Methods.ChildNodeOrder(userNode.Nodes[i]);
+                    userNode.Nodes[i].Text += $"\t\t（共{userNode.Nodes[i].Nodes.Count}个重复项）";
                     foreach (TreeNode tittleNode in userNode.Nodes[i].Nodes) tittleNode.ToolTipText = "";
                 }
             }
