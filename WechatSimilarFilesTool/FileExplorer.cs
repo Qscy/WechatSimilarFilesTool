@@ -90,7 +90,7 @@ namespace WechatSimilarFilesTool
                                 {
                                     var filenode = nodeTittle.Nodes.Add(wcf2.filename, wcf2.filename);
                                     talsize += wcf2.size;
-                                    filenode.ToolTipText = $"文件大小:{Methods.AutoFitFormat(wcf2.size)}\t修改日期：{wcf2.lasteditime}\t文件夹：{wcf2.month}";
+                                    filenode.ToolTipText = $"文件大小:{Methods.AutoFitFormat(wcf2.size)}\t修改日期：{wcf2.lasteditime} 文件夹：{wcf2.month}";
                                 }
                                 nodeTittle.Text += $"，共计{Methods.AutoFitFormat(talsize)}===============";
                                 nodeTittle.ToolTipText = talsize.ToString();
