@@ -50,7 +50,7 @@ namespace WechatSimilarFilesTool
             this.uiNavMenu1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uiNavMenu1.BackColor = System.Drawing.SystemColors.Control;
+            this.uiNavMenu1.BackColor = System.Drawing.Color.DimGray;
             this.uiNavMenu1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.uiNavMenu1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
             this.uiNavMenu1.ExpandSelectFirst = false;
@@ -72,7 +72,7 @@ namespace WechatSimilarFilesTool
             this.uiNavMenu1.ShowPlusMinus = false;
             this.uiNavMenu1.ShowRootLines = false;
             this.uiNavMenu1.ShowSecondBackColor = true;
-            this.uiNavMenu1.Size = new System.Drawing.Size(715, 842);
+            this.uiNavMenu1.Size = new System.Drawing.Size(1273, 1121);
             this.uiNavMenu1.Style = Sunny.UI.UIStyle.Custom;
             this.uiNavMenu1.TabIndex = 0;
             this.uiNavMenu1.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -182,7 +182,7 @@ namespace WechatSimilarFilesTool
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(715, 880);
+            this.ClientSize = new System.Drawing.Size(1273, 1159);
             this.Controls.Add(this.uiNavMenu1);
             this.ExtendBox = true;
             this.ExtendMenu = this.uiContextMenuStrip1;

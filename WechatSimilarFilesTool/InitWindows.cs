@@ -37,6 +37,7 @@ namespace WechatSimilarFilesTool
         public static List<string> Months = new List<string>();
         public static List<string> Users = new List<string>();
         int threadCount = 0;    //线程数
+        int maxThread = Environment.ProcessorCount;//   获取逻辑核心数
         private void CompareFileHash(object o)   //比较方法
         {
             int i = (int)o;
@@ -97,7 +98,7 @@ namespace WechatSimilarFilesTool
             {
                 while (true)
                 {
-                    if (threadCount < 5) break;
+                    if (threadCount < maxThread) break;
                 }
                 threadCount++;
                 var th = new Thread(new ParameterizedThreadStart(GetMD5Hash));//创建多线程
@@ -125,7 +126,7 @@ namespace WechatSimilarFilesTool
             {
                 while(true)     //限制线程数
                 {
-                    if (threadCount < 5) break;
+                    if (threadCount < maxThread) break;
                 }
                 threadCount++;
                 var th = new Thread(new ParameterizedThreadStart(CompareFileHash));//创建多线程
