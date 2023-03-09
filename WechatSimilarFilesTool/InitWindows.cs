@@ -60,8 +60,11 @@ namespace WechatSimilarFilesTool
         {
             int i = (int)o;
             string path_i = $"{weChatPath}{fileList[i].user}\\{subPath}\\{fileList[i].month}\\{fileList[i].filename}";
-            hashes.Add(i,Methods.ComputeMD5Hash(path_i));
-            threadCount--;
+            lock (hashes)   //·ÀÖ¹Ïß³Ì¶ÂÈû
+            {
+                hashes.Add(i, Methods.ComputeMD5Hash(path_i));
+                threadCount--;
+            }
         }
         private void InitWindow_Shown(object sender, EventArgs e)
         {
