@@ -10,26 +10,26 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 namespace WechatSimilarFilesTool
 {
     public class MyRenderer : ToolStripProfessionalRenderer     //重写右键菜单的背景颜色
-    { 
+    {
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
-        { 
+        {
             e.Graphics.FillRectangle(new SolidBrush(Color.DimGray), e.AffectedBounds);
         }
         protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)     //image背景
         {
-          Color customColor = Color.DimGray;
+            Color customColor = Color.DimGray;
             Rectangle affectedBounds = e.AffectedBounds;
             //affectedBounds.Y += 2;
             //affectedBounds.Height -= 4;
-            using (SolidBrush brush = new SolidBrush(customColor)) 
-            { 
-                e.Graphics.FillRectangle(brush, affectedBounds); 
-            } 
+            using (SolidBrush brush = new SolidBrush(customColor))
+            {
+                e.Graphics.FillRectangle(brush, affectedBounds);
+            }
         }
     }
     internal sealed class Methods
     {
-        public static bool MD5HashCompareFile(string p_1,string p_2)    //哈希比较
+        public static bool MD5HashCompareFile(string p_1, string p_2)    //哈希比较
         {
             var md5 = System.Security.Cryptography.MD5.Create();
             //计算第一个文件的哈希值
@@ -71,7 +71,15 @@ namespace WechatSimilarFilesTool
         public static byte[] ComputeMD5Hash(string p)   //Hash计算
         {
             var md5 = System.Security.Cryptography.MD5.Create();
-            var stream_1 = File.OpenRead(p);
+            FileStream stream_1;
+            try
+            {
+                stream_1 = File.OpenRead(p);
+            }
+            catch
+            {
+                throw new Exception($"{p.Split('\\').Last():5}…文件正在使用中，请关闭后重试。");
+            }
             byte[] hashByte_1 = md5.ComputeHash(stream_1);
             stream_1.Close();
             return hashByte_1;
@@ -81,15 +89,15 @@ namespace WechatSimilarFilesTool
             navMenu.ShowNodeToolTips = true;
             foreach (TreeNode node in navMenu.Nodes)
             {
-                node.ImageIndex= 0;
+                node.ImageIndex = 0;
                 node.BackColor = Color.DarkGray;
-                foreach(TreeNode nodeChild in node.Nodes)
+                foreach (TreeNode nodeChild in node.Nodes)
                 {
-                    nodeChild.ImageIndex= 1;
-                    foreach(TreeNode nodeChChild in nodeChild.Nodes)
+                    nodeChild.ImageIndex = 1;
+                    foreach (TreeNode nodeChChild in nodeChild.Nodes)
                     {
                         nodeChChild.ImageIndex = 7;
-                        foreach(TreeNode nodeChChChild in nodeChChild.Nodes)
+                        foreach (TreeNode nodeChChChild in nodeChChild.Nodes)
                         {
                             var fn = nodeChChChild.Name.ToLower();
                             if (fn.Contains(".docx") || fn.Contains(".doc"))
@@ -120,16 +128,16 @@ namespace WechatSimilarFilesTool
         {
             var list2 = new List<string>(list);
             var list3 = new List<int>();
-            foreach(string s in list2)
+            foreach (string s in list2)
             {
                 var s2 = s.Replace("-", "");
-                if(!list3.Contains(int.Parse(s2)))list3.Add(int.Parse(s2));
+                if (!list3.Contains(int.Parse(s2))) list3.Add(int.Parse(s2));
             }
             var arry = list3.ToArray();
             Array.Sort(arry);
             Array.Reverse(arry);
             var dic = new Dictionary<int, string>();
-            for(int i = 0; i < arry.Length; i++)
+            for (int i = 0; i < arry.Length; i++)
                 dic.Add(i, arry[i].ToString());
             return dic;
         }
@@ -143,7 +151,7 @@ namespace WechatSimilarFilesTool
         public static double FormatSize(long b, SizeFormat u)   //单位转换
         {
             var byteSize = (double)b;
-            switch(u)
+            switch (u)
             {
                 case 0x0:
                     return byteSize;
@@ -159,12 +167,12 @@ namespace WechatSimilarFilesTool
         public static string AutoFitFormat(long b)  //自适应单位
         {
             var size = (double)b;
-            var format =new List<string>(){ "B", "KB", "MB", "GB" };
-            for(int i = 1; i < 5; i++)
+            var format = new List<string>() { "B", "KB", "MB", "GB" };
+            for (int i = 1; i < 5; i++)
             {
                 if (size < Math.Pow(1024, (double)i) && size != 0)
                 {
-                    var s = (size/ Math.Pow(1024, (double)i-1)).ToString("0.0") + format[i-1];
+                    var s = (size / Math.Pow(1024, (double)i - 1)).ToString("0.0") + format[i - 1];
                     return s;
                 }
             }
@@ -173,20 +181,20 @@ namespace WechatSimilarFilesTool
         public static TreeNode ChildNodeOrder(TreeNode node)     //根据文件大小进行排序
         {
             if (node == null) return null;
-            for(int i=0;i<node.Nodes.Count-1;i++)
+            for (int i = 0; i < node.Nodes.Count - 1; i++)
             {
                 var temp = (TreeNode)node.Nodes[i].Clone();
                 var index = i;
-                for (int j=i;j<node.Nodes.Count - 1; j++)
+                for (int j = i; j < node.Nodes.Count - 1; j++)
                 {
                     if (Convert.ToInt32(temp.ToolTipText) > Convert.ToInt32(node.Nodes[j + 1].ToolTipText)) continue;
                     else
                     {
-                        temp =(TreeNode)node.Nodes[j + 1].Clone();
+                        temp = (TreeNode)node.Nodes[j + 1].Clone();
                         index = j + 1;
                     }
                 }
-                node.Nodes[index] = (TreeNode)node.Nodes[i].Clone(); 
+                node.Nodes[index] = (TreeNode)node.Nodes[i].Clone();
                 node.Nodes[i] = (TreeNode)temp.Clone();
             }
             return node;
