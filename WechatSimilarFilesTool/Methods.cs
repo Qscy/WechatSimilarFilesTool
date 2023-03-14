@@ -76,9 +76,9 @@ namespace WechatSimilarFilesTool
             {
                 stream_1 = File.OpenRead(p);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception($"{p.Split('\\').Last():5}…文件正在使用中，请关闭后重试。");
+                throw ex;
             }
             byte[] hashByte_1 = md5.ComputeHash(stream_1);
             stream_1.Close();

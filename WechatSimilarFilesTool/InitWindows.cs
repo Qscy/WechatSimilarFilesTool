@@ -60,15 +60,14 @@ namespace WechatSimilarFilesTool
         {
             int i = (int)o;
             string path_i = $"{weChatPath}{fileList[i].user}\\{subPath}\\{fileList[i].month}\\{fileList[i].filename}";
-            lock (hashes)   //防止线程堵塞
+            lock (hashes)  //防止线程堵塞
             {
                 try
                 {
                     hashes.Add(i, Methods.ComputeMD5Hash(path_i));
                 }
-                catch (Exception ex)
+                catch
                 {
-                    label1.Text = ex.Message;
                     return;
                 }
                 threadCount--;
@@ -126,7 +125,7 @@ namespace WechatSimilarFilesTool
                         var time2 = DateTime.Now;
                         if (time2.Second - time1.Second > 5)    //错误处理：有时候会堵住
                         {
-                            label1.Text = "线程未响应...请重新启动...";
+                            label1.Text = "有微信文件打开占用中，请关闭后重试……";
                             return;
                         }
                     }
