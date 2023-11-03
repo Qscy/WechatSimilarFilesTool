@@ -128,7 +128,14 @@ namespace WechatSimilarFilesTool
         {
             var node = uiNavMenu1.SelectedNode;
             var fpath = weChatPath + node.Parent.Parent.Parent.Name + subPath + node.Parent.Parent.Name + "\\" + node.Name;
-            FileSystem.DeleteFile(fpath, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            try
+            {
+                FileSystem.DeleteFile(fpath, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "啊噢！", MessageBoxButtons.OK);   //删除失败的处理
+            }
             var parent = node.Parent;
             node.Remove();
             if (parent.GetNodeCount(false) < 2) parent.Remove();
@@ -138,7 +145,15 @@ namespace WechatSimilarFilesTool
         {
             var node = uiNavMenu1.SelectedNode;
             var fpath = weChatPath + node.Parent.Parent.Parent.Name + subPath + node.Parent.Parent.Name + "\\" + node.Name;
-            File.Delete(fpath);
+            try
+            {
+                File.Delete(fpath);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "啊噢！", MessageBoxButtons.OK);   //删除失败的处理
+            }
             var parent = node.Parent;
             node.Remove();
             if (parent.GetNodeCount(false) < 2) parent.Remove();
@@ -149,7 +164,14 @@ namespace WechatSimilarFilesTool
         {
             var node = uiNavMenu1.SelectedNode;
             var fpath = weChatPath + node.Parent.Parent.Parent.Name + subPath + node.Parent.Parent.Name + "\\" + node.Name;
-            System.Diagnostics.Process.Start("Explorer", "/select," + fpath);
+            try
+            {
+                System.Diagnostics.Process.Start("Explorer", "/select," + fpath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "啊噢！", MessageBoxButtons.OK);   //打开失败的处理
+            }
         }
         private void uiNavMenu1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)  //TreeView的Node点击事件
         {
